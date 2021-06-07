@@ -246,11 +246,18 @@ public class Repository {
 		notifyAllObservers();
 	}
 
-	public void process_email(String emailto, String subject, String text) {
+	public void SendEmailSimplu(String emailto, String subject, String text) {
 
 		SendHTMLEmail se = new SendHTMLEmail(emailto, subject, text);
 
 	}
+	
+	public void SendEmailHTML() {
+		
+		
+		
+	}
+	
 
 	public void addObserver(Observer o) {
 

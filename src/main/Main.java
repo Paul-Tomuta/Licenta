@@ -9,15 +9,15 @@ public class Main {
 
 	public static Logger logger = Logger.getAnonymousLogger();
 	
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		
 	//	MainFrame mf = new MainFrame();
 	//	LogginFrame lf = new LogginFrame();
 		
 		
 		
-		SendHTMLEmail se = new SendHTMLEmail("paultomuta@gmail.com","ceva","ceva");
+		SendHTMLEmail se = new SendHTMLEmail("paultomuta@gmail.com","titlu","<h1>text</h1>");
 		
 	}
-
+*/
 }

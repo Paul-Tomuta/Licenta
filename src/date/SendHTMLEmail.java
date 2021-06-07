@@ -59,9 +59,11 @@ public class SendHTMLEmail {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(EMAIL_TO));
 
 			// Set Subject: header field
-			message.setSubject("Testing Subject");
+			message.setSubject(EMAIL_SUBJECT);
 			// Send the actual HTML message, as big as you like
-			message.setContent("<h1>This is actual message embedded in HTML tags</h1>", "text/html");
+			
+			message.setContent(""+ EMAIL_TEXT, "text/html");
+			
 
 			// Send message
 			Transport.send(message);
