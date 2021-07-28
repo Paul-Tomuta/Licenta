@@ -1,45 +1,54 @@
 package date;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+
+import main.Main;
+import repo.Conexiune;
+
 public class Persoana {
 
-	private String numar;
+	private String nrTelefon;
 	private String email;
 	private String nume;
 	private String prenume;
-	private boolean barbat;
+	private int sex;
 
-	public Persoana(String num, String prenume, String email, String numar, boolean b) {
+	public Persoana(String num, String prenume, String email, String numar, int b) {
 		this.nume = num;
 		this.prenume = prenume;
-		this.numar = numar;
+		this.nrTelefon = numar;
 		this.email = email;
-		this.barbat = b;
+		this.sex = b;
 	}
 	
-	public Persoana(String num, String prenume,  String numar, boolean b) {
+	public Persoana(String num, String prenume,  String numar, int b) {
 		this.nume = num;
 		this.prenume = prenume;
-		this.numar = numar;
-		this.barbat = b;
+		this.nrTelefon = numar;
+		this.sex = b;
 		
 	}
 	
-	public Persoana(String num, String prenume, String email, boolean b, int k) {
+	public Persoana(String num, String prenume, String email, int b, int k) {
 		this.nume = num;
 		this.prenume = prenume;
 		this.email = email;
-		this.barbat = b;
+		this.sex = b;
 	}
 
 	public String toString() {
-		return "Lista [numar=" + numar + ", email=" + email + ", nume=" + nume + ", prenume=" + prenume + "]";
+		return "Lista [numar=" + nrTelefon + ", email=" + email + ", nume=" + nume + ", prenume=" + prenume + "Sex: "+ sex+ "]";
 	}
 
 	public String getNumar() {
-		return numar;
+		return nrTelefon;
 	}
 
 	public void setNumar(String numar) {
-		this.numar = numar;
+		this.nrTelefon = numar;
 	}
 
 	public String getEmail() {
@@ -62,21 +71,11 @@ public class Persoana {
 		return prenume;
 	}
 
-	public boolean isBarbat() {
-		return barbat;
+	public int isBarbat() {
+		return sex;
 	}
 
-	
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (barbat ? 1231 : 1237);
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((numar == null) ? 0 : numar.hashCode());
-		result = prime * result + ((nume == null) ? 0 : nume.hashCode());
-		result = prime * result + ((prenume == null) ? 0 : prenume.hashCode());
-		return result;
-	}
+
 
 	
 	public boolean equals(Object obj) {
@@ -87,17 +86,17 @@ public class Persoana {
 		if (getClass() != obj.getClass())
 			return false;
 		Persoana other = (Persoana) obj;
-		if (barbat != other.barbat)
+		if (sex != other.sex)
 			return false;
 		if (email == null) {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
 			return false;
-		if (numar == null) {
-			if (other.numar != null)
+		if (nrTelefon == null) {
+			if (other.nrTelefon != null)
 				return false;
-		} else if (!numar.equals(other.numar))
+		} else if (!nrTelefon.equals(other.nrTelefon))
 			return false;
 		if (nume == null) {
 			if (other.nume != null)
@@ -112,12 +111,82 @@ public class Persoana {
 		return true;
 	}
 
-	public void setBarbat(boolean barbat) {
-		this.barbat = barbat;
+	public void setBarbat(int sex) {
+		this.sex = sex;
 	}
 
 	public void setPrenume(String prenume) {
 		this.prenume = prenume;
+	}
+	
+	
+	public static ArrayList<Persoana> getPersoane(){
+		ArrayList<Persoana> lista=new ArrayList<Persoana>();
+		
+		try {
+			Statement st=Conexiune.getInstance().getConnection().createStatement();
+			ResultSet rs=st.executeQuery(Conexiune.interogarePersoane);
+			while(rs.next()) {
+				String nrTelefon = rs.getString("NumarTelefon");
+				String nume = rs.getString("Nume");
+				String prenume = rs.getString("Prenume");
+				String email = rs.getString("Email");
+				int s = rs.getInt("Sex");
+				Persoana p = new Persoana(nume, prenume, email, nrTelefon, s);
+				Main.logger.info(p.toString());
+				lista.add(p);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return lista;
+	}
+	
+	public void insertPersoana() {
+		
+		
+		try {
+			Statement st = Conexiune.getInstance().getConnection().createStatement();
+			String sql = "INSERT INTO `persoana` (`NumarTelefon`, `Nume`, `Prenume`, `Email`, `Sex`) VALUES ('"+this.nrTelefon+"', "
+					+ "'"+this.nume+"', '"+this.prenume+"', '"+this.email+"', '"+(this.sex)+"');";
+			st.execute(sql);
+			Main.logger.info("Persoana a fost adaugata");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void modifyPersoana(String nume_vechi) {
+		
+		
+		try {
+			Statement st = Conexiune.getInstance().getConnection().createStatement();
+			String sql = "UPDATE `persoana` SET `NumarTelefon`='"+this.nrTelefon+"',`Nume`='"+this.nume+"',`Prenume`='"+this.prenume+"',`Email`='"+this.email+"',`Sex`='"+this.sex+"' WHERE Nume='"+nume_vechi + "'";
+			Main.logger.info("Execute sql:" + sql);
+			st.execute(sql);
+			Main.logger.info("Persoana a fost modificata");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void deletePersoana() {
+		
+		
+		try {
+			Statement st = Conexiune.getInstance().getConnection().createStatement();
+			String sql = "DELETE FROM `persoana` WHERE Nume= '"+this.nume+"'";
+			st.execute(sql);
+			Main.logger.info("Persoana a fost stearsa");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

@@ -6,7 +6,9 @@ import date.MesajEmailHTML;
 import date.MesajEmailSimplu;
 import date.MesajSms;
 import date.Persoana;
-import date.SendHTMLEmail;
+import date.SendEmail;
+import date.SendSMS;
+import main.Main;
 import ui.Observer;
 
 public class Repository {
@@ -18,246 +20,305 @@ public class Repository {
 	private ArrayList<MesajSms> listeMesaje = new ArrayList<MesajSms>();
 	private ArrayList<MesajEmailSimplu> listaEmailSimpla = new ArrayList<MesajEmailSimplu>();
 	private ArrayList<MesajEmailHTML> listaEmailHTML = new ArrayList<MesajEmailHTML>();
+	
 
 	private ArrayList<Observer> observatori = new ArrayList<Observer>();
+	private Conexiune cnx = Conexiune.getInstance();
 
 	private static Repository obiectCreeat = null;
 
-	public void adaugaStudentSMS(String nume, String prenume, String telefon) { // singleton
+	public void adaugaPersoanaSMS(String nume, String prenume, String telefon) {
 
-		Persoana s = new Persoana(nume, prenume, telefon, true);
+		Persoana s = new Persoana(nume, prenume, telefon, 1);
 		listaSMS.add(s);
 		notifyAllObservers();
-		main.Main.logger.info("Studentul: " + s.toString() + " a fost adaugat in repo");
+		main.Main.logger.info("Persoana: " + s.toString() + " a fost creeat in repository");
 	}
 
-	public void adaugaStudentEmail(String nume, String prenume, String email) { // singleton
+	public void adaugaPersoanaEmail(String nume, String prenume, String email) {
 
 		int i = 0;
-		Persoana s = new Persoana(nume, prenume, email, false);
+		Persoana s = new Persoana(nume, prenume, email, 0);
 
 		listaEmail.add(s);
-		main.Main.logger.info("Studentul: " + s.toString() + " a fost adaugat in repo");
+		main.Main.logger.info("Persoana: " + s.toString() + " a fost creeat in repository");
 		notifyAllObservers();
 
 	}
 
-	public void adaugaStudentFull(String nume, String prenume, String telefon, String email) { // singleton
-
-		Persoana s = new Persoana(nume, prenume, email, telefon, true);
+	public void adaugaPersoanaFull(String nume, String prenume, String telefon, String email) {
+		
+		Persoana s = new Persoana(nume, prenume, email, telefon, 1);
 
 		listaFull.add(s);
+		s.insertPersoana();
 
 		notifyAllObservers();
 
-		main.Main.logger.info("Studentul: " + s.toString() + " a fost adaugat in repo");
+		main.Main.logger.info("Persoana: " + s.toString() + " a fost creeat in repository");
 
 	}
 
-	public void stergeStudentSMS(String nume) {
 
-		for (int i = 0; i < listaSMS.size(); i++) {
-			if (listaSMS.get(i).getNume().toString().contains(nume)) {
-				listaSMS.remove(i);
-				break;
-			}
-		}
-		main.Main.logger.info("Studentul: " + nume.toString() + "a fost sters");
-		notifyAllObservers();
-	}
-
-	public void stergeStudentEmail(String nume) {
-
-		for (int i = 0; i < listaEmail.size(); i++) {
-			if (listaEmail.get(i).getNume().toString().contains(nume)) {
-				listaEmail.remove(i);
-				break;
-			}
-		}
-		notifyAllObservers();
-		main.Main.logger.info("Studentul: " + nume.toString() + "a fost sters");
-	}
-
-	public void stergeStudentFull(String nume) {
+	public void stergePersoanaFull(String nume) {
 
 		for (int i = 0; i < listaFull.size(); i++) {
 			if (listaFull.get(i).getNume().toString().contains(nume)) {
-				listaFull.remove(i);
+				Persoana pers = listaFull.get(i);
+				pers.deletePersoana();
 				break;
 			}
 		}
-		main.Main.logger.info("Studentul: " + nume.toString() + "a fost sters");
+		
 		notifyAllObservers();
 	}
 
-	public void modificaNumeSMS(String nv, String nn) {
 
-		for (int i = 0; i < listaSMS.size(); i++) {
-
-			if (listaSMS.get(i).getNume().equals(nv)) {
-
-				listaSMS.get(i).setNume(nn);
-
-			}
-
-		}
-		main.Main.logger.info("Studentul: " + nv.toString() + "a fost modificat cu: " + nn.toString());
-		notifyAllObservers();
-	}
-
-	public void modificaNumeEmail(String nv, String nn) {
-
-		for (int i = 0; i < listaEmail.size(); i++) {
-
-			if (listaEmail.get(i).getNume().equals(nv)) {
-
-				listaEmail.get(i).setNume(nn);
-
-			}
-
-		}
-		main.Main.logger.info("Studentul: " + nv.toString() + "a fost modificat cu: " + nn.toString());
-		notifyAllObservers();
-	}
-
-	public void modificaNumeFull(String nv, String nn) {
+	public void modificaNumeFull(String nv, String nn, String pr, String em, String tel) {
 
 		for (int i = 0; i < listaFull.size(); i++) {
 
 			if (listaFull.get(i).getNume().equals(nv)) {
+				Persoana pers = listaFull.get(i);
+				String nume_vechi = pers.getNume();
 
-				listaFull.get(i).setNume(nn);
-
+				pers.setNume(nn);
+				pers.setPrenume(pr);
+				pers.setEmail(em);
+				pers.setNumar(tel);
+				pers.modifyPersoana(nume_vechi);
+				break;
 			}
 
 		}
-		main.Main.logger.info("Studentul: " + nv.toString() + "a fost modificat cu: " + nn.toString());
+		
 		notifyAllObservers();
 	}
 
-	public void adaugaSms(String titlu, String text) { // singleton
+	public void adaugaSms(String titlu, String text) {
 
 		MesajSms s = new MesajSms(titlu, text);
+
+		s.insertMesajSMS();
+
 		listeMesaje.add(s);
 		notifyAllObservers();
 
-		main.Main.logger.info("Mesajul cu titlul " + titlu.toString() + "a fost creeat in repository");
+	
 	}
 
 	public void stergeSms(String titlu) {
 
 		for (int i = 0; i < listeMesaje.size(); i++) {
 			if (listeMesaje.get(i).getTitlu().toString().contains(titlu)) {
-				listeMesaje.remove(i);
+				MesajSms msg = listeMesaje.get(i);
+				msg.deleteSMS();
 				break;
 			}
 		}
-		main.Main.logger.info("Mesajul cu titlul " + titlu.toString() + "a fost sters");
+		
 		notifyAllObservers();
 	}
 
-	public void mdoficaSms(String titlu, String text) {
+	public void modificaSMS(String nv, String nn, String tn) {
 
 		for (int i = 0; i < listeMesaje.size(); i++) {
 
-			if (listeMesaje.get(i).getTitlu().equals(titlu)) {
+			if (listeMesaje.get(i).getTitlu().equals(nv)) {
+				MesajSms ms = listeMesaje.get(i);
+				String nume_vechi = ms.getTitlu();
 
-				listeMesaje.get(i).setText(text);
+				ms.setTitlu(nn);
+				ms.setText(tn);
+				ms.modifySMS(nume_vechi);
+				break;
 
 			}
 
 		}
-
-		main.Main.logger.info("Mesajul cu titlul " + titlu.toString() + "a fost creeat in repository");
+		
 		notifyAllObservers();
 	}
 
-	public void adaugaMesajEmailSimplu(String titlu, String text) { // singleton
+	public void adaugaMesajEmailSimplu(String titlu, String text) {
 
 		MesajEmailSimplu s = new MesajEmailSimplu(titlu, text);
+		s.insertEmail();
 		listaEmailSimpla.add(s);
 		notifyAllObservers();
 
-		main.Main.logger.info("Emailu cu titulul " + titlu.toString() + "a fost creeat in repository");
+		
 	}
 
 	public void stergeMesajEmailSimplu(String titlu) {
 
 		for (int i = 0; i < listaEmailSimpla.size(); i++) {
 			if (listaEmailSimpla.get(i).getTitlu().toString().contains(titlu)) {
-				listaEmailSimpla.remove(i);
+				MesajEmailSimplu msg = listaEmailSimpla.get(i);
+				msg.deleteEmail();
 				break;
 			}
 		}
-		main.Main.logger.info("Emailu cu titlul " + titlu.toString() + "a fost sters");
+		
 		notifyAllObservers();
 	}
 
-	public void mdoficaMesajEmailSimplu(String titlu, String text) {
+	public void mdoficaMesajEmailSimplu(String titluVechi, String titluNou, String textNou) {
 
 		for (int i = 0; i < listaEmailSimpla.size(); i++) {
 
-			if (listaEmailSimpla.get(i).getTitlu().equals(titlu)) {
+			if (listaEmailSimpla.get(i).getTitlu().equals(titluVechi)) {
 
-				listaEmailSimpla.get(i).setText(text);
+				MesajEmailSimplu ms = listaEmailSimpla.get(i);
+				String nume_vechi = ms.getTitlu();
+
+				ms.setTitlu(titluNou);
+				ms.setText(textNou);
+				ms.modifyEmail(nume_vechi);
+				break;
 
 			}
 
 		}
 
-		main.Main.logger.info("Emailu cu titlu " + titlu.toString() + "a fost creeat in repository");
+		
 		notifyAllObservers();
 	}
 
-	public void adaugaMesajEmailHTML(String titlu, String text) { // singleton
+	public void adaugaMesajEmailHTML(String titlu, String text) {
 
 		MesajEmailHTML s = new MesajEmailHTML(titlu, text);
+		s.insertEmailHtml();
+
 		listaEmailHTML.add(s);
 		notifyAllObservers();
 
-		main.Main.logger.info("Emailu HTML cu titulul " + titlu.toString() + "a fost creeat in repository");
+		
 	}
 
 	public void stergeMesajEmailHTML(String titlu) {
 
 		for (int i = 0; i < listaEmailHTML.size(); i++) {
 			if (listaEmailHTML.get(i).getTitlu().toString().contains(titlu)) {
-				listaEmailHTML.remove(i);
+				MesajEmailHTML msg = listaEmailHTML.get(i);
+				msg.deleteEmailHtml();
 				break;
 			}
 		}
-		main.Main.logger.info("Emailu HTML cu titlul " + titlu.toString() + "a fost sters");
+		
 		notifyAllObservers();
 	}
 
-	public void mdoficaMesajEmailHTML(String titlu, String text) {
+	public void modificaMesajHtml(String titluVechi, String titluNou, String textNou) {
 
 		for (int i = 0; i < listaEmailHTML.size(); i++) {
 
-			if (listaEmailHTML.get(i).getTitlu().equals(titlu)) {
+			if (listaEmailHTML.get(i).getTitlu().equals(titluVechi)) {
 
-				listaEmailHTML.get(i).setText(text);
+				MesajEmailHTML ms = listaEmailHTML.get(i);
+				String nume_vechi = ms.getTitlu();
+
+				ms.setTitlu(titluNou);
+				ms.setText(textNou);
+
+				ms.modifyEmailHtml(nume_vechi);
+				break;
 
 			}
 
 		}
 
-		main.Main.logger.info("Emailu HTML cu titlu " + titlu.toString() + "a fost creeat in repository");
+		
 		notifyAllObservers();
 	}
 
-	public void SendEmailSimplu(String emailto, String subject, String text) {
+	public void SendEmail(String nume, String numeText) {
+		String email = "";
+		String titluEmail = "";
+		String textEmail = "";
+		for (int i = 0; i < listaFull.size(); i++) {
+			if (listaFull.get(i).getNume().contains(nume)) {
 
-		SendHTMLEmail se = new SendHTMLEmail(emailto, subject, text);
+				email = listaFull.get(i).getEmail();
+				
+				break;
+			}
+		}
+
+		for (int i = 0; i < listaEmailSimpla.size(); i++) {
+			if (listaEmailSimpla.get(i).getTitlu().contains(numeText)) {
+				titluEmail = listaEmailSimpla.get(i).getTitlu().toString().trim();
+				textEmail = listaEmailSimpla.get(i).getText().toString().trim();
+				break;
+
+			}
+
+		}
+
+		SendEmail se = new SendEmail(email, titluEmail, textEmail);
+		
+		Main.logger.info("Emailul: " +titluEmail+ " cu textul: " + textEmail+ " a fost trimis catre: " +nume);
 
 	}
 	
-	public void SendEmailHTML() {
+	
+	public void SendEmailHTML(String nume, String numeText) {
+		String email = "";
+		String titluEmail = "";
+		String textEmail = "";
+		for (int i = 0; i < listaFull.size(); i++) {
+			if (listaFull.get(i).getNume().contains(nume)) {
+
+				email = listaFull.get(i).getEmail();
+				
+				break;
+			}
+		}
+
+		for (int i = 0; i < listaEmailHTML.size(); i++) {
+			if (listaEmailHTML.get(i).getTitlu().contains(numeText)) {
+				titluEmail = listaEmailHTML.get(i).getTitlu().toString().trim();
+				textEmail = listaEmailHTML.get(i).getText().toString().trim();
+				break;
+
+			}
+
+		}
+
+		SendEmail se = new SendEmail(email, titluEmail, textEmail);
 		
-		
-		
+		Main.logger.info("Email-ul HTML: " +titluEmail+ " cu textul: " + textEmail+ " a fost trimis catre: " +nume);
+
 	}
 	
+	public void SendSms(String nume, String numeTitlu) {
+		String numar ="";
+		String titluSMS="";
+		String textSMS="";
+		for (int i = 0; i < listaFull.size(); i++) {
+			if (listaFull.get(i).getNume().contains(nume)) {
+
+				numar = listaFull.get(i).getNumar();			
+				break;
+			}
+		}
+		
+		for (int i = 0; i < listeMesaje.size(); i++) {
+			if (listeMesaje.get(i).getTitlu().contains(numeTitlu)) {
+				
+				textSMS = listeMesaje.get(i).getText().toString().trim();
+				break;
+
+			}
+
+		}
+		
+		SendSMS send = new SendSMS(numar, textSMS);
+		send.send();
+		
+		Main.logger.info("SMS-ul : " +nume+ " cu textul: " + textSMS+ " a fost trimis catre: " +nume);
+		
+	}
 
 	public void addObserver(Observer o) {
 
@@ -296,23 +357,31 @@ public class Repository {
 	}
 
 	public ArrayList<Persoana> getListaFull() {
+
+		listaFull = Persoana.getPersoane();
+
 		return listaFull;
 	}
 
 	public ArrayList<MesajSms> getMesajeSms() {
+
+		listeMesaje = MesajSms.getSMS();
+
 		return listeMesaje;
 	}
 
 	public ArrayList<MesajEmailSimplu> getListaEmailSimpla() {
+
+		listaEmailSimpla = MesajEmailSimplu.getEmail();
+
 		return listaEmailSimpla;
 	}
 
 	public ArrayList<MesajEmailHTML> getListaEmailHTML() {
-		return listaEmailHTML;
-	}
 
-	public void setListaSMS(ArrayList<Persoana> listaSMS) {
-		this.listaSMS = listaSMS;
+		listaEmailHTML = MesajEmailHTML.getEmail();
+
+		return listaEmailHTML;
 	}
 
 }

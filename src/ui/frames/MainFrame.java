@@ -12,19 +12,19 @@ import javax.swing.JPanel;
 
 import main.Main;
 import ui.Command;
-import ui.menuItems.AdaugaStudentItem;
+import ui.menuItems.AdaugaPersoanaItem;
 import ui.menuItems.CreareMesajHTMLItem;
 import ui.menuItems.CreareMesajSimpluItem;
 import ui.menuItems.CreareSmsItem;
 import ui.menuItems.HelpMenuIItem;
 import ui.menuItems.LogginMenuItem;
-import ui.menuItems.ModificaClietItem;
+import ui.menuItems.ModificaPersoanaItem;
 import ui.menuItems.ModificaMesajItem;
 import ui.menuItems.UploadListaEmailListeItems;
 import ui.menuItems.UploadListaSmsItem;
 import ui.menuItems.UtilitareItem;
 import ui.menuItems.UploadListaMixtaItem; 
-import ui.menuItems.StergeClientItem;
+import ui.menuItems.StergePersoanaItem;
 import ui.menuItems.StergeMesajItem;
 
 public class MainFrame extends JFrame implements ActionListener{
@@ -40,9 +40,9 @@ public class MainFrame extends JFrame implements ActionListener{
 	UploadListaEmailListeItems uploadListaEmailItem;
 	UploadListaSmsItem uploeadListaSmsItem;
 	UploadListaMixtaItem uploadListaMixtaItem;
-	AdaugaStudentItem adaugaClientItem;
-	ModificaClietItem modificaClientItem;
-	StergeClientItem stergeClientItem;
+	AdaugaPersoanaItem adaugaClientItem;
+	ModificaPersoanaItem modificaClientItem;
+	StergePersoanaItem stergePersoanaItem;
 
 	JMenu mesajeMenu;
 	CreareMesajSimpluItem creeareMesajSimpluItem;
@@ -93,17 +93,17 @@ public class MainFrame extends JFrame implements ActionListener{
 		this.uploadListaMixtaItem.addActionListener(this);
 		this.listaClientiMeniu.add(uploadListaMixtaItem);
 		
-		this.adaugaClientItem = new AdaugaStudentItem(this);
+		this.adaugaClientItem = new AdaugaPersoanaItem(this);
 		this.adaugaClientItem.addActionListener(this);
 		this.listaClientiMeniu.add(adaugaClientItem);
 		
-		this.modificaClientItem = new ModificaClietItem(this);
+		this.modificaClientItem = new ModificaPersoanaItem(this);
 		this.modificaClientItem.addActionListener(this);
 		this.listaClientiMeniu.add(modificaClientItem);
 		
-		this.stergeClientItem = new StergeClientItem(this);
-		this.stergeClientItem.addActionListener(this);
-		this.listaClientiMeniu.add(stergeClientItem);
+		this.stergePersoanaItem = new StergePersoanaItem(this);
+		this.stergePersoanaItem.addActionListener(this);
+		this.listaClientiMeniu.add(stergePersoanaItem);
 		
 
 		this.mesajeMenu = new JMenu("Mesaje");
@@ -123,7 +123,7 @@ public class MainFrame extends JFrame implements ActionListener{
 		
 		this.modificaMesajItem = new ModificaMesajItem(this);
 		this.modificaMesajItem.addActionListener(this);
-		this.mesajeMenu.add(modificaMesajItem); // nu se adauga
+		this.mesajeMenu.add(modificaMesajItem); 
 		
 		this.stergeMesajItem = new StergeMesajItem(this);
 		this.stergeMesajItem.addActionListener(this);
@@ -138,9 +138,9 @@ public class MainFrame extends JFrame implements ActionListener{
 		
 		this.add(mainFrame);
 		this.pack();
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		this.setVisible(true);
-
+		this.setSize(800, 800);
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
 	
 	public void actionPerformed(ActionEvent e) {

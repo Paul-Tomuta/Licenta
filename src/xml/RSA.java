@@ -17,7 +17,7 @@ public class RSA {
 	public RSA() {
  
 		r = new Random();
-		p = BigInteger.probablePrime(bitlength, r);//genereaza numere prime 
+		p = BigInteger.probablePrime(bitlength, r);
 		q = BigInteger.probablePrime(bitlength, r);
 		N = p.multiply(q);
 		phi = p.subtract(BigInteger.ONE).multiply(q.subtract(BigInteger.ONE));

@@ -172,7 +172,6 @@ public class RC6 {
 			padding[i] = 0;
 		int count = 0;
 		byte[] tmp = new byte[data.length+lenght];
-		//afiseazaMatrice(S);
 		int i;
 		for(i=0;i<data.length+lenght;i++){
 			if(i>0 && i%16 == 0){

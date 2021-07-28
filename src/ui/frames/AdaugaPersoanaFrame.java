@@ -8,9 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import ui.Command;
-import ui.buttons.AdaugaStudentButton;
+import ui.buttons.AdaugaPersoanaButton;
 
-public class AdaugaClientFrame extends JPanel implements ActionListener{
+public class AdaugaPersoanaFrame extends JPanel implements ActionListener{
 	
 	JLabel textLabel;
 	JTextField textField;
@@ -25,9 +25,9 @@ public class AdaugaClientFrame extends JPanel implements ActionListener{
 	JTextField textEmailField;
 	
 	
-	AdaugaStudentButton button;
+	AdaugaPersoanaButton button;
 	
-	public AdaugaClientFrame() {
+	public AdaugaPersoanaFrame() {
 		
 		this.textLabel = new JLabel("Introdu numele");
 		this.add(textLabel);
@@ -52,7 +52,7 @@ public class AdaugaClientFrame extends JPanel implements ActionListener{
 		
 		
 		
-		this.button = new AdaugaStudentButton(this.textField, this.textPrenumeField, this.textTelefonField, this.textEmailField);
+		this.button = new AdaugaPersoanaButton(this.textField, this.textPrenumeField, this.textTelefonField, this.textEmailField);
 		this.button.addActionListener(this);
 		this.add(button);
 		

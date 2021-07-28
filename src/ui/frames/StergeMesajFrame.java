@@ -5,38 +5,64 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
-import combo.StergeMesajCombo;
 import ui.Command;
+import ui.buttons.StergeEmailButton;
+import ui.buttons.StergeEmailHtmlButton;
 import ui.buttons.StergeMesajButton;
+import ui.combo.ComboEmail;
+import ui.combo.ComboEmailHtml;
+import ui.combo.ComboSMS;
 
 public class StergeMesajFrame extends JPanel implements ActionListener{
 	
 	JLabel textVechi;
 	JLabel comboLabel;
+	JLabel textEmail;
+	JLabel textHtml;
 	
-	JTextField textVechiField;
-	
-	StergeMesajCombo combo;
+	ComboEmail comboEmail;
+	ComboSMS combo;
+	ComboEmailHtml comboHTML;
 	
 	StergeMesajButton button;
+	StergeEmailButton buttonEmail;
+	StergeEmailHtmlButton buttonHTML;
 	
 	public StergeMesajFrame() {
 		
-		this.textVechi = new JLabel("Selecteaza Mesaj VECHI");
+		this.textVechi = new JLabel("Selecteaza Mesaj ");
 		this.add(textVechi);
+		
 		this.comboLabel = new JLabel();
-		this.combo = new StergeMesajCombo(comboLabel);
+		this.combo = new ComboSMS(comboLabel);
 		
 		this.add(combo);
-		
-		this.textVechiField = new JTextField(15);
-		this.add(textVechiField);
-		
-		this.button = new StergeMesajButton(this.textVechiField);
+		this.button = new StergeMesajButton(combo);
 		this.add(button);
 		this.button.addActionListener(this);
+		
+		
+		this.textEmail = new JLabel("Selecteaza email");
+		this.add(textEmail);
+		this.comboEmail= new ComboEmail(textEmail);
+		this.add(comboEmail);
+		
+		this.buttonEmail = new StergeEmailButton(comboEmail);
+		this.add(buttonEmail);
+		this.buttonEmail.addActionListener(this);
+		
+		
+		this.textHtml = new JLabel("Selecteaza email HTML");
+		this.add(textHtml);
+		this.comboHTML = new ComboEmailHtml(textHtml);
+		this.add(comboHTML);
+		
+		this.buttonHTML = new StergeEmailHtmlButton(comboHTML);
+		this.add(buttonHTML);
+		this.buttonHTML.addActionListener(this);
+
+	
 		
 	}
 	

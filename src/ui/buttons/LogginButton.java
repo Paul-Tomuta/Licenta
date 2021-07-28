@@ -4,20 +4,28 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import ui.Command;
+import xml.XmlParser;
 
 public class LogginButton extends JButton implements Command{
 	
-	JTextField text;
+	JTextField tParola;
+	JTextField tRezultat;
 	
-	public LogginButton(JTextField t) {
-		super("Loggin");
+	public LogginButton(JTextField tParola, JTextField tRezultat) {
+		super("Login");
 		
-		this.text= t;
+		this.tParola = tParola;
+		this.tRezultat = tRezultat;
 	}
 
 	public void execute() {
 		
+		String parola = tParola.getText().trim();
 		
-		
+		if (new XmlParser().verificaParola(parola)) {
+			tRezultat.setText("Parola corecta");
+		} else {
+			tRezultat.setText("Parola gresita");
+		}
 	}
 }

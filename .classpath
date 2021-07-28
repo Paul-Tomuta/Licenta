@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-14">
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-11.0.11">
 		<attributes>
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Email/Lib/javax.mail.jar"/>
 	<classpathentry kind="lib" path="commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="poi-3.17.jar"/>
 	<classpathentry kind="lib" path="poi-ooxml-3.17.jar"/>
 	<classpathentry kind="lib" path="poi-ooxml-schemas-3.17.jar"/>
 	<classpathentry kind="lib" path="xmlbeans-2.6.0.jar"/>
-	<classpathentry kind="lib" path="javax.mail.jar"/>
 	<classpathentry kind="lib" path="activation-1.1.1.jar"/>
+	<classpathentry kind="lib" path="jackson-annotations-2.9.0.jar"/>
+	<classpathentry kind="lib" path="jackson-core-2.9.5.jar"/>
+	<classpathentry kind="lib" path="jackson-databind-2.9.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paul_/OneDrive/Desktop/Licenta/jar/mysql-connector-java-8.0.25.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paul_/OneDrive/Desktop/Licenta/jar/javax.mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paul_/OneDrive/Desktop/Licenta/jar/poi-3.17.jar"/>
+	<classpathentry kind="lib" path="C:/Users/paul_/OneDrive/Desktop/Licenta/jar/poi-ooxml-3.17.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

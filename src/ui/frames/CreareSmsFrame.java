@@ -21,12 +21,12 @@ public class CreareSmsFrame  extends JPanel implements ActionListener{
 	
 	public CreareSmsFrame() {
 		
-		this.titluLabel = new JLabel("Creaza sms");
+		this.titluLabel = new JLabel(" Introduce titlul ");
 		this.add(titluLabel);
 		this.titluField = new JTextField(15);
 		this.add(titluField);
 		
-		this.textLabel = new JLabel(" Creeaza text ");
+		this.textLabel = new JLabel(" Introduce textul ");
 		this.add(textLabel);
 		this.textField = new JTextField(15);
 		this.add(textField);

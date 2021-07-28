@@ -4,27 +4,25 @@ import javax.swing.JMenuItem;
 
 import ui.Command;
 import ui.frames.MainFrame;
-import ui.frames.UtilitareFrame;
+import ui.frames.StergePersoanaFrame;
 
-public class UtilitareItem extends JMenuItem implements Command {
+public class StergePersoanaItem extends JMenuItem implements Command {
 	
 	MainFrame mf;
 
-	public UtilitareItem(MainFrame mf) {
-		super("Creeare campanie");
+	public StergePersoanaItem(MainFrame mf) {
+		super("Sterge Persoana");
 		this.mf = mf;
 	}
 	
 	public void execute() {
 		
 		
-		UtilitareFrame lg = new UtilitareFrame();
-		
+		StergePersoanaFrame lg = new StergePersoanaFrame();
 		this.mf.pannel.removeAll();
 		this.mf.pannel.add(lg);
 		this.mf.pannel.repaint();
 		this.mf.repaint();
 	}
-	
 
 }

@@ -18,7 +18,7 @@ public class CreeareMesajHTMLButton extends JButton implements Command {
 	};
 	
 	public void execute() {
-		main.Main.logger.info("Emailu a fost creeat");
+		main.Main.logger.info("Email-ul HTML  a fost creeat");
 		
 		String titlu = titluField.getText().toString().trim();
 		String text = textField.getText().toString().trim();

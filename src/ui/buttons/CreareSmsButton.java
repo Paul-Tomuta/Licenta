@@ -13,7 +13,7 @@ public class CreareSmsButton extends JButton implements Command {
 	
 
 	public CreareSmsButton(JTextField te, JTextField tf) {
-		super("Trimite sms");
+		super("Creare sms");
 		
 		this.titluField = te;
 		this.textField = tf;
@@ -21,7 +21,7 @@ public class CreareSmsButton extends JButton implements Command {
 	
 	
 	public void execute() {
-		main.Main.logger.info("Mesajul a fost creeat");
+		main.Main.logger.info("SMS a fost creeat");
 		
 		
 		String titlu = titluField.getText().toString().trim();

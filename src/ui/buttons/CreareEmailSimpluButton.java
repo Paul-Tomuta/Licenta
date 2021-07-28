@@ -19,7 +19,7 @@ public class CreareEmailSimpluButton extends JButton implements Command {
 	}
 	
 	public void execute() {
-		main.Main.logger.info("Mesajul a fost creeat");
+		main.Main.logger.info("Email-ul a fost creeat");
 		
 		String textTitlu = titlu.getText().toString().trim();
 		String testMesaj = text.getText().toString().trim();

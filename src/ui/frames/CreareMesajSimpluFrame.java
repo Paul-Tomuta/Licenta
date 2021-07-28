@@ -27,14 +27,15 @@ public class CreareMesajSimpluFrame extends JPanel implements ActionListener {
 		this.titluLabel = new JLabel("Introduceti tutlu mesajului");
 		this.add(titluLabel);
 		
-		this.titluField = new JTextField(50);
+		this.titluField = new JTextField(15);
 		BoxLayout layout = new BoxLayout(titluField, BoxLayout.Y_AXIS);
 		this.titluField.setLayout(layout);
 		this.add(titluField);
 		
 		this.textLabel = new JLabel("Introduceti textul");
 		this.add(textLabel);
-		this.textField = new JTextField(15);
+		this.textField = new JTextField(40);
+		this.add(textField);
 		
 		
 		this.button = new CreareEmailSimpluButton(this.titluField, this.textField);
